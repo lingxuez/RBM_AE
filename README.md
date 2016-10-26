@@ -19,6 +19,12 @@ The output will be written to `RBMresults/`, including the learned weights and b
 
 > python trainRBM.py 100 1
 
+To generate new images using a Gibbs chain starting from random configuration of the visible variables, run
+
+> python sampleRBM.py
+
+The default setting generates 100 new images using the Gibbs sampler with 1000 steps.
+
 
 ## (Denoising) Autoencoder
 
