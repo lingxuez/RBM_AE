@@ -37,9 +37,9 @@ When `noise_probability` is set to 0, no noise is introduced and a regular autoe
 > python trainAutoencoder.py 100 0.25
 
 
-## Pretraining Neural Network
+## Pretraining a Neural Network
 
-To learn an one-layer neural network to classify the 10 handwritten digits with unsupervised pretraining, run
+To fine-tune an one-layer neural network to classify the 10 handwritten digits with unsupervised pretraining, run
 
 > python trainNN.py \<dim_hidden> \<method>
 
