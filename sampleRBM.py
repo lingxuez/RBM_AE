@@ -12,7 +12,7 @@ if __name__ == "__main__":
 	## load trained results
 	##########################
 	seed = 55
-	k = 10
+	k = 1
 	res_dir="RBMresults/"
 	prefix="RBM_h100_100epoch_seed" + str(seed) + "_k" + str(k) + "_"
 
