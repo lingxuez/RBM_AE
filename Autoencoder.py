@@ -66,16 +66,16 @@ class Autoencoder(object):
 		if nfeature != self.dim_input:
 			raise ValueError('column dimension of trainData must match dim_input.')
 
-		## construct a noisy input
-		if is_noisy:
-			noisy_trainData = self.add_noise(trainData, noise_prob)
-		else:
-			noisy_trainData = trainData
-
 		## training
 		(train_loss, val_loss) = ([], [])
 		(diff_loss, nEpoch) = (tol+1, 0)	
 		while (nEpoch < max_epoch) and (diff_loss > tol):
+			## construct a noisy input
+			if is_noisy:
+				noisy_trainData = self.add_noise(trainData, noise_prob)
+			else:
+				noisy_trainData = trainData
+
 			## scan through training sample using random order
 			scan_order = np.random.permutation(nsample)
 			for n in scan_order:
@@ -84,13 +84,13 @@ class Autoencoder(object):
 				noisy_data_x = noisy_trainData[n, :, np.newaxis]
 
 				self.gradientDescent(data_x=data_x, noisy_data_x=noisy_data_x,
-										rate=rate)
+										rate=rate, noise_prob=noise_prob)
 
 			## track cross entropy loss
 			train_loss += [self.cross_entropy_loss(data=trainData,
-											noisy_data=trainData)]
+											noisy_data=trainData, noise_prob=noise_prob)]
 			val_loss += [self.cross_entropy_loss(data=valData,
-											noisy_data=valData)]
+											noisy_data=valData, noise_prob=noise_prob)]
 
 			## stopping criteria
 			if (nEpoch > 1):
@@ -100,7 +100,7 @@ class Autoencoder(object):
 		return (train_loss, val_loss)
 
 
-	def cross_entropy_loss(self, data, noisy_data):
+	def cross_entropy_loss(self, data, noisy_data, noise_prob=0):
 		"""
 		Compute the cross entropy loss using current parameters 
 		on given data set.
@@ -132,7 +132,7 @@ class Autoencoder(object):
 	## Helper Functions
 	####################
 
-	def add_noise(self, trainData, noise_prob):
+	def add_noise(self, trainData, noise_prob=0):
 		"""
 		Randomly choose noise_prob proportion of entries to flip.
 		"""
@@ -142,7 +142,7 @@ class Autoencoder(object):
 		return noisy_trainData
 
 
-	def predict_x_mean(self, noisy_data_x):
+	def predict_x_mean(self, noisy_data_x, noise_prob=0):
 		"""
 		Calculate the predicted mean given input data_x.
 		:param data_x: binary input with dimension (dim_input, 1)
@@ -155,7 +155,7 @@ class Autoencoder(object):
 		return (h, x_mean)
 
 
-	def gradientDescent(self, data_x, noisy_data_x, rate):
+	def gradientDescent(self, data_x, noisy_data_x, rate, noise_prob=0):
 		"""
 		Perform gradient update using one data point.
 		Destructively modify self.W, self.bias_input and self.bias_hidden.

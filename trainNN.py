@@ -40,7 +40,7 @@ if __name__ == "__main__":
 		W = np.loadtxt("Autoresults/Auto_h" + str(dim_hidden) + "_100epoch_seed77_noise0.0_W.csv", 
 						delimiter=",")
 	elif pretrain == "DenoAuto":
-		W = np.loadtxt("Autoresults/Auto_h" + str(dim_hidden) + "_100epoch_seed77_noise0.25_W.csv", 
+		W = np.loadtxt("Autoresults/Auto_h" + str(dim_hidden) + "_100epoch_seed111_noise0.25_W.csv", 
 						delimiter=",")
 	elif pretrain == "Random":
 		W = None
